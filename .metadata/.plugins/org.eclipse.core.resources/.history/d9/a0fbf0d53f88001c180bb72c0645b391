@@ -1,0 +1,13 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ATMController {
+	
+	@GetMapping("/atms")
+	public ATMs retrieveATMs() {
+		
+	}
+
+}

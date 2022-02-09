@@ -1,0 +1,19 @@
+package com.lloyds.ida.atmlocatorservice.beans.copy2;
+
+public class Atms {
+
+	private int min;
+
+	public Atms(int min) {
+		super();
+		this.min = min;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+}

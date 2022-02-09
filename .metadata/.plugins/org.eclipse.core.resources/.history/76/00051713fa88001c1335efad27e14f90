@@ -1,0 +1,72 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Scanner;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.lloyds.ida.atmlocatorservice.beans.Atms;
+
+@RestController
+public class AtmsController {
+	
+	@GetMapping("atm-locator-service/atms")
+	public Atms retrieveATMs() {
+	
+		String json = getJsonResponse();
+
+		Gson gson = new Gson();
+
+		Atms atms = gson.fromJson(json, Atms.class);
+		return atms;
+	}
+	
+	
+	static String getJsonResponse(){
+		String url = "https://api.lloydsbank.com/open-banking/v2.2/atms";
+    	System.out.println("url :"+ url);
+    	StringBuffer response= null;
+    	 try {
+    	 URL obj = new URL(url);
+         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+         con.setRequestMethod("GET");
+ 	//	con.setRequestProperty("Accept", "application/json");
+ 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+ 		System.out.println("conn.getResponseCode().."+ con.getResponseCode());
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        response = new StringBuffer();
+        System.out.println("here11111111111111111111111");
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+            System.out.println("inputLine :"+ inputLine);
+        } 
+        in.close();
+        System.out.println("222222222222222222222222");
+        Scanner sc = new Scanner(obj.openStream());
+        while(sc.hasNext())
+        {
+       	 inputLine+=sc.nextLine();
+        }
+        System.out.println("3333333333333333333333");
+     //   System.out.println("\nJSON data in string format");
+        System.out.println("jdfh" +inputLine);
+        sc.close();
+        
+       
+		//	JSONObject obj_JSONObject = new JSONObject(response.toString());
+			System.out.println("response check :"+ response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response.toString();
+	}
+}

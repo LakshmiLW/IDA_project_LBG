@@ -1,0 +1,62 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.lloyds.ida.atmlocatorservice.beans.Atms;
+
+@RestController
+public class AtmsController {
+	
+	@GetMapping("atm-locator-service/atms")
+	public Atms retrieveATMs() {
+	
+		String json = getJsonResponse();
+
+		Gson gson = new Gson();
+
+		Atms atms = gson.fromJson(json, Atms.class);
+		return atms;
+	}
+	
+	
+	static String getJsonResponse(){
+		String url = "https://api.lloydsbank.com/open-banking/v2.2/atms";
+    	System.out.println("url :"+ url);
+    	String output=null;
+    	 try {
+    	 URL obj = new URL(url);
+         HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+         conn.setRequestMethod("GET");
+ 		conn.setRequestProperty("Accept", "application/json");
+ 		System.out.println("onn.getResponseCode().."+ conn.getResponseCode());
+ 		if (conn.getResponseCode() != 200) {
+ 			throw new RuntimeException("Failed : HTTP error code : "
+ 					+ conn.getResponseCode());
+ 		}
+
+ 		BufferedReader br = new BufferedReader(new InputStreamReader(
+ 			(conn.getInputStream())));
+
+ 		
+ 		System.out.println("Output from Server .... \n");
+ 		while ((output = br.readLine()) != null) {
+ 			System.out.println(output);
+ 		}
+
+ 		conn.disconnect();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return output;
+	}
+}

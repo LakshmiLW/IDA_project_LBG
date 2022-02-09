@@ -1,0 +1,5 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+public class ATMController {
+
+}

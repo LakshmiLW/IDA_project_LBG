@@ -1,0 +1,65 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Scanner;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.lloyds.ida.atmlocatorservice.beans.Atms;
+
+@RestController
+public class AtmsController {
+	
+	@GetMapping("atm-locator-service/atms")
+	public Atms retrieveATMs() {
+	
+	/*	String json = getJsonResponse();
+		Gson gson = new Gson();
+		Atms atms = gson.fromJson(json, Atms.class);*/
+		
+		Atms atms=null;
+		try {
+			URL url = new URL("https://api.lloydsbank.com/open-banking/v2.2/atms");
+
+			// Open a connection(?) on the URL(??) and cast the response(???)
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+			// Now it's "open", we can set the request method, headers etc.
+			connection.setRequestProperty("accept", "application/json");
+
+			// This line makes the request
+			InputStream responseStream = connection.getInputStream();
+
+			// Manually converting the response body InputStream to APOD using Jackson
+			ObjectMapper mapper = new ObjectMapper();
+			atms = mapper.readValue(responseStream, Atms.class);
+		} catch (StreamReadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DatabindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return atms;
+	}
+	
+	
+}

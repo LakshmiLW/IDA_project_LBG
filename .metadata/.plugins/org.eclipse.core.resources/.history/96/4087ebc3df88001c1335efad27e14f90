@@ -1,0 +1,35 @@
+package com.lloyds.ida.atmlocatorservice.controller;
+
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.lloyds.ida.atmlocatorservice.beans.Atms;
+
+@RestController
+public class AtmsController {
+	
+	@GetMapping("atm-locator-service/atms")
+	public Atms retrieveATMs() {
+		String url = "https://api.lloydsbank.com/open-banking/v2.2/atms";
+        URL obj;
+		try {
+			obj = new URL(url);
+		
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        // optional default is GET
+        con.setRequestMethod("GET");
+        //add request header
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+		return new Atms();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+
+}

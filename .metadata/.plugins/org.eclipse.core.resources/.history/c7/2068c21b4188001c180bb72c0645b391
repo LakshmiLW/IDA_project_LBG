@@ -1,0 +1,6 @@
+package com.lloyds.ida.atmlocatorservice.beans;
+
+public class Atms {
+
+	int min;
+}
