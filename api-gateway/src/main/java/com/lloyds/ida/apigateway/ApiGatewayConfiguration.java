@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApiGatewayConfiguration {
-
+	
 	@Bean
 	public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
 		return builder.routes()
@@ -21,4 +21,5 @@ public class ApiGatewayConfiguration {
 						.uri("lb://atm-locator-service"))
 				.build();
 	}
+
 }

@@ -5,7 +5,12 @@ import java.util.List;
 
 public class ATM {
     private String identification;
-    private List<SupportedCurrency> supportedCurrencies;
+    @Override
+	public String toString() {
+		return "ATM [identification=" + identification + ", supportedCurrencies=" + supportedCurrencies + ", location="
+				+ location + "]";
+	}
+	private List<SupportedCurrency> supportedCurrencies;
     private Location location;
 
     @JsonProperty("Identification")

@@ -1,7 +1,6 @@
 package com.lloyds.ida.atmlocatorservice.beans;
 
 import com.fasterxml.jackson.annotation.*;
-import java.time.OffsetDateTime;
 import java.util.Date;
 
 public class Meta {
